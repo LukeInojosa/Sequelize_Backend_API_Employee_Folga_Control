@@ -1,3 +1,9 @@
 import userRoutes from "./userRoutes.js"
 import authRoutes from "./authRoutes.js"
-export {userRoutes, authRoutes}
+import dayOffRoutes from  "./dayOffRoutes.js"
+
+export {
+    userRoutes, 
+    authRoutes,
+    dayOffRoutes
+}

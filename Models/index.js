@@ -46,7 +46,7 @@ Employee.belongsTo(Employer,{
 Employee.hasMany(Dayoff,{
     foreignKey:{
         name: "employeeApprovedId",
-        as: "approvedDayoff",
+        as: "approvedDayOff",
     }
 })
 Dayoff.belongsTo(Employee,{

@@ -11,7 +11,17 @@ Dayoff.init({
     },
     date:{
         type: DataTypes.DATEONLY,
-        allowNull: false
+        allowNull: false,
+        set(value) {
+            const [day, moth, year] = value
+                        .trim()
+                        .split('-')
+                        .map(v => Number(v))
+            if (!day || !moth || !year) throw new Error("date column must be a date in format dd-mm-yyyy in Dayoff model")
+            this.setDataValue('date', 
+                new Date(year, moth-1, day)
+            )
+        }
     },
     justification:{
         type: DataTypes.TEXT,

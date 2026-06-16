@@ -1,4 +1,4 @@
-import { Employer } from "../Models/index.js";
+import { Employer, User, Employee } from "../Models/index.js";
 
 class employerServices{
     static async createEmployer(data){
@@ -12,6 +12,16 @@ class employerServices{
 
         if(!employer) throw new Error("Failed to create employer")
         return employer
+    }
+
+    static async getEmployerIdByUsername(username){
+        const employer = await User.findOne({
+            where: {
+                username
+            }
+        }) 
+        
+        return employer?.employerId
     }
 }
 

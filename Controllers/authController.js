@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 
 class authController{
     static async signUp(req,res,next){
+        // O cadastro é apenas de Employers (Companhias)
         const {username, password, cnpj, companyName} = req.body
         try{
             const user = await authServices.signUp({username, password,cnpj,companyName})
@@ -16,6 +17,7 @@ class authController{
             return next(error)
         }
     }
+    // Qualquer usuário pode fazer a entrada no sistema
     static async signIn(req,res,next){
         try{
             const {username, password} = req.body
@@ -28,6 +30,7 @@ class authController{
             return next(error)
         }
     }
+    // a autenticação retornará um token
     static async checkAutentication(req,res,next){
         try{
             const checkedAutentication = await authServices.checkAutentication(req.headers)
