@@ -2,6 +2,7 @@ import { dayOffServices } from "../Services/index.js"
 
 class dayOffController{
     static async getDayOffs(req, res,next){
+        const {status} = req.params
         const {role, username} = req.user
         const {startDate, endDate, date} = req.query
         let dayOffs = null
@@ -11,7 +12,8 @@ class dayOffController{
                     usernames: [username],
                     startDate,
                     endDate,
-                    date
+                    date,
+                    status,
                 })
                 break;
             case "employer":
@@ -21,7 +23,8 @@ class dayOffController{
                     startDate,
                     endDate,
                     date,
-                    employerUsername: username
+                    employerUsername: username,
+                    status,
                 })
                 break;
             default:
@@ -32,13 +35,17 @@ class dayOffController{
 
         res.status(200).send(dayOffs)
     }
-    static async createDayOff(req,res,next){
-        const {role} = req.user
-        switch (role){
-            case "employer":
-                const {username, date, justification} = req.body
 
-                const dayOffCreated = await dayOffServices.createDayOff({
+    static async createDayOff(req,res,next){
+        const userData = req.user
+        const {date, justification} = req.body
+        let dayOffCreated = null
+        switch (userData?.role){
+            case "employer":
+                const {username} = req.body
+                // verifica se já foi requisitado . Se já foi, atualiza para
+                // folga dada. Se não foi , cria folga e dá a folga para o funcionário
+                dayOffCreated = await dayOffServices.createDayOff({
                     username,
                     date,
                     justification
@@ -47,6 +54,14 @@ class dayOffController{
                 res.status(200).send(dayOffCreated)
                 break;
             case "employee":
+                // não deve ser possível o mesmo usuário 
+                // fazer duas requisiçõs para o mesmo dia 
+                dayOffCreated = await dayOffServices.requestDayOff({
+                    username: userData?.username, 
+                    date,
+                    justification
+                })
+                res.status(200).send(dayOffCreated)
                 break;
             default:
                 res.status(401).send({
@@ -54,9 +69,11 @@ class dayOffController{
                 })
         }
     }
-    static async deleteDayOff(){
+
+    static async deleteDayOff(req,res,next){
 
     }
+    
     static async patchDayOff(){
 
     }

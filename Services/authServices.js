@@ -44,7 +44,7 @@ class authServices{
             where: {
                 username
             },
-            attributes: ['password']
+            attributes: ['password', 'employeeId']
         })
 
         if (!user) return null
@@ -52,7 +52,7 @@ class authServices{
         const isSamePassword = await bcrypt.compare(password, user.password)
 
         if (!isSamePassword) return null
-
+        
         const role = user.employeeId? 'employee': 'employer'
 
         return {username, role}

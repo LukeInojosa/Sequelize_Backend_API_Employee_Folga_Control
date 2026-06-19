@@ -11,6 +11,7 @@ Employer.hasOne(User,{
         name: "employerId",
     }
 })
+
 User.belongsTo(Employer,{
     foreignKey: {
         name: "employerId",
@@ -23,6 +24,7 @@ Employee.hasOne(User, {
         name: "employeeId",
     }
 })
+
 User.belongsTo(Employee,{
     foreignKey: {
         name: "employeeId",
@@ -35,6 +37,7 @@ Employer.hasMany(Employee, {
         allowNull: false
     }
 })
+
 Employee.belongsTo(Employer,{
     foreignKey:{
         name: "employerId",
@@ -63,6 +66,7 @@ Employee.hasMany(Dayoff,{
         as: "requestedDayoff",
     }
 })
+
 Dayoff.belongsTo(Employee,{
     foreignKey:{
         name: "employeeRequestedId",
