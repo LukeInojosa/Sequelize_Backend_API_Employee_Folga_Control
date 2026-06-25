@@ -3,6 +3,7 @@
  - sudo apt install build-essential python3 make g++
  - npm install sqlite3 --build-from-source
  - npm install
+ - npm run dev
 
 # API Sequelize para controle de folga
 
